@@ -26,8 +26,6 @@ start();
 function start() {
 // query the database for all items being auctioned
     connection.query("SELECT * FROM products", function(err, results) {
-        console.log("Welcome to Bamazon!");
-        console.log("\n-------------------\n");
        console.table(results);
 //     for(var i = 0; i < results.length; i++) {
 //         var result = results[i];
@@ -53,14 +51,7 @@ function chooseItem(){
           name: "pick",
           type: "input",
           message: "What is the ID of the item you would like to purchase? [Quit with Q]",
-          //how do i use user validation for characters other than q?
-        },
-        {
-          name: "amount",
-          type: "input",
-          message: "How many would you like?"
-        }
-      ])
+        }])
       .then(function(answer) {
         // get the information of the chosen item
         // console.log(answer.pick);
@@ -75,36 +66,57 @@ function chooseItem(){
           if (results[i].item_id == answer.pick) {
             chosenItem = results[i];            
             // console.table(chosenItem);
+        howMany(chosenItem);
                 }
             }
         };
+    });
 
 
-        if (chosenItem.stock_quantity < parseInt(answer.amount)){
+    function howMany(chosenItem){
+    connection.query("SELECT * FROM products", function(err, results){
+        if (err) throw err;
+
+    inquirer
+      .prompt([
+        {
+          name: "amount",
+          type: "input",
+          message: "How many would you like?"
+        }])
+      .then(function(answer) {
+        var chosenAmount = answer.amount;
+        if (chosenItem.stock_quantity < parseInt(chosenAmount)){
                 console.log("Insufficient quantity!");
-                // console.table(results);
+                console.table(results);
+                start();
         } else {
    
-            console.log("Thank you for your purchase...\n");
-            updateProduct();
-      
+            console.log("Thank you for your purchase");
+            console.log("A drone is on its way to your house with your " + chosenItem.product_name);
+             updateProduct(chosenItem, chosenAmount);
+     
         }
+    });
+})};
 
-    function updateProduct() {
+    
+
+   function updateProduct(chosenItem, chosenAmount) {
             var query = connection.query("UPDATE products SET ? WHERE ?",
               [
                 {
-                  stock_quantity: chosenItem.stock_quantity - answer.amount
+                  stock_quantity: chosenItem.stock_quantity - chosenAmount
                 },
                 {
                   item_id: chosenItem.item_id
                 }
               ]);
             // logs the actual query being run
-            console.log(query.sql);
-            start()
+            // console.log(query.sql);
+            start();
+
           }
-    });
+    
 });
 }
-
