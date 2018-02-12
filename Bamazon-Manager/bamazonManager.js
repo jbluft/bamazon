@@ -23,23 +23,8 @@ start();
   });
 
 
-function start() {
-// query the database for all items being auctioned
-    connection.query("SELECT * FROM products", function(err, results) {
-       console.table(results);
-//     for(var i = 0; i < results.length; i++) {
-//         var result = results[i];
-//     // console.log(result.item_id);
-//     // console.log(result.product_name);
-//     // console.log(result.department_name);
-//     // console.log(result.price);
-//     // console.log(result.stock_quantity);
-//  }
-    chooseItem();
-    });
-}
 
-function chooseItem(){
+function start(){
 
   // query the database for all items being auctioned
   connection.query("SELECT * FROM products", function(err, results) {
@@ -48,8 +33,8 @@ function chooseItem(){
     inquirer
       .prompt([
         {
-          name: "pick",
-          type: "input",
+          name: "select",
+          type: "list",
           message: "What is the ID of the item you would like to purchase? [Quit with Q]",
         }])
       .then(function(answer) {
@@ -101,21 +86,21 @@ function chooseItem(){
 
     
 
-   function updateProduct(chosenItem, chosenAmount) {
-            var query = connection.query("UPDATE products SET ? WHERE ?",
-              [
-                {
-                  stock_quantity: chosenItem.stock_quantity - chosenAmount
-                },
-                {
-                  item_id: chosenItem.item_id
-                }
-              ]);
-            // logs the actual query being run
-            // console.log(query.sql);
-            start();
+//    function updateProduct(chosenItem, chosenAmount) {
+//             var query = connection.query("UPDATE products SET ? WHERE ?",
+//               [
+//                 {
+//                   stock_quantity: chosenItem.stock_quantity - chosenAmount
+//                 },
+//                 {
+//                   item_id: chosenItem.item_id
+//                 }
+//               ]);
+//             // logs the actual query being run
+//             // console.log(query.sql);
+//             start();
 
-          }
+//           }
     
 });
 }
