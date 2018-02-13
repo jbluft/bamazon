@@ -27,15 +27,7 @@ function start() {
 // query the database for all items being auctioned
     connection.query("SELECT * FROM products", function(err, results) {
        console.table(results);
-//     for(var i = 0; i < results.length; i++) {
-//         var result = results[i];
-//     // console.log(result.item_id);
-//     // console.log(result.product_name);
-//     // console.log(result.department_name);
-//     // console.log(result.price);
-//     // console.log(result.stock_quantity);
-//  }
-    chooseItem();
+      chooseItem();
     });
 }
 
@@ -105,7 +97,7 @@ function chooseItem(){
             var query = connection.query("UPDATE products SET ? WHERE ?",
               [
                 {
-                  stock_quantity: chosenItem.stock_quantity - chosenAmount
+                  stock_quantity: parseInt(chosenItem.stock_quantity) - parseInt(chosenAmount)
                 },
                 {
                   item_id: chosenItem.item_id
