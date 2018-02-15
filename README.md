@@ -15,7 +15,10 @@ This app will be the consumer-facing part of your store. Customers will see the 
 
 ![alt text](bamazoncustomer2.JPG)
 
+![alt text](bamazoncustomer4.JPG)
+
 ![alt text](bamazoncustomer3.JPG)
+
 
 <h2>bamazonManager.js</h2>
 
