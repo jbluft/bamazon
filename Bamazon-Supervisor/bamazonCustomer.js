@@ -12,7 +12,7 @@ var connection = mysql.createConnection({
 
   // Your password
   password: "rush2112",
-  database: "BamazonDB"
+  database: "BamazonSuperDB"
 });
 
 connection.connect(function(err) {
@@ -97,7 +97,8 @@ function chooseItem(){
             var query = connection.query("UPDATE products SET ? WHERE ?",
               [
                 {
-                  stock_quantity: parseInt(chosenItem.stock_quantity) - parseInt(chosenAmount)
+                  stock_quantity: parseInt(chosenItem.stock_quantity) - parseInt(chosenAmount),
+                  product_sales: parseInt(chosenItem.product_sales) + (parseInt(chosenItem.price) * parseInt(chosenAmount))
                 },
                 {
                   item_id: chosenItem.item_id

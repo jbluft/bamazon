@@ -12,7 +12,7 @@ var connection = mysql.createConnection({
 
   // Your password
   password: "rush2112",
-  database: "BamazonDB"
+  database: "BamazonSuperDB"
 });
 
 connection.connect(function(err) {
